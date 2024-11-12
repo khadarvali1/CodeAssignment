@@ -1,0 +1,37 @@
+
+public class Employee {
+    private int id;
+    private String name;
+    private Integer managerId; // null if no manager (CEO)
+    private double salary;
+    private String position;
+
+    public Employee(int id, String name, Integer managerId, double salary, String position) {
+        this.id = id;
+        this.name = name;
+        this.managerId = managerId;
+        this.salary = salary;
+        this.position = position;
+    }
+
+    // Getters and setters
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Integer getManagerId() {
+        return managerId;
+    }
+
+    public double getSalary() {
+        return salary;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+}

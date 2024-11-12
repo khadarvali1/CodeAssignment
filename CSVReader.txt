@@ -1,0 +1,23 @@
+import java.io.*;
+import java.util.*;
+import org.apache.commons.csv.*;
+
+public class CSVReader {
+    public static List<Employee> readEmployees(String filename) throws IOException {
+        List<Employee> employees = new ArrayList<>();
+        
+        try (Reader reader = new FileReader(filename)) {
+            CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT.withHeader());
+            for (CSVRecord record : csvParser) {
+                int id = Integer.parseInt(record.get("EmployeeID"));
+                String name = record.get("Name");
+                Integer managerId = record.get("ManagerID").isEmpty() ? null : Integer.parseInt(record.get("ManagerID"));
+                double salary = Double.parseDouble(record.get("Salary"));
+                String position = record.get("Position");
+
+                employees.add(new Employee(id, name, managerId, salary, position));
+            }
+        }
+        return employees;
+    }
+}

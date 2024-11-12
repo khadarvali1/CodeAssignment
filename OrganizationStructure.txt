@@ -1,0 +1,70 @@
+import java.util.*;
+import java.util.stream.Collectors;
+
+public class OrganizationStructure {
+    private List<Employee> employees;
+
+    public OrganizationStructure(List<Employee> employees) {
+        this.employees = employees;
+    }
+
+    public Employee getEmployeeById(int id) {
+        return employees.stream()
+                        .filter(e -> e.getId() == id)
+                        .findFirst()
+                        .orElse(null);
+    }
+
+    public List<Employee> getSubordinates(int managerId) {
+        return employees.stream()
+                        .filter(e -> e.getManagerId() != null && e.getManagerId() == managerId)
+                        .collect(Collectors.toList());
+    }
+
+    // Method to check salary violations
+    public void checkSalaryViolations() {
+        for (Employee manager : employees) {
+            if (manager.getManagerId() != null) { // Not CEO
+                List<Employee> subordinates = getSubordinates(manager.getId());
+                if (!subordinates.isEmpty()) {
+                    double averageSalary = subordinates.stream()
+                                                      .mapToDouble(Employee::getSalary)
+                                                      .average()
+                                                      .orElse(0);
+                    double managerSalary = manager.getSalary();
+
+                    // Check salary constraints
+                    if (managerSalary < 1.2 * averageSalary) {
+                        System.out.println(manager.getName() + " earns less than 20% more than the average salary of their subordinates by: " +
+                                           (1.2 * averageSalary - managerSalary));
+                    }
+                    if (managerSalary > 1.5 * averageSalary) {
+                        System.out.println(manager.getName() + " earns more than 50% more than the average salary of their subordinates by: " +
+                                           (managerSalary - 1.5 * averageSalary));
+                    }
+                }
+            }
+        }
+    }
+
+    // Method to check reporting line length
+    public void checkReportingLines() {
+        for (Employee employee : employees) {
+            int managerCount = 0;
+            int currentId = employee.getId();
+
+            while (currentId != 0) {  // CEO has ID 0
+                Employee manager = getEmployeeById(currentId);
+                if (manager == null || manager.getManagerId() == null) {
+                    break;
+                }
+                currentId = manager.getManagerId();
+                managerCount++;
+            }
+
+            if (managerCount > 4) {
+                System.out.println(employee.getName() + " has too many managers between them and the CEO: " + managerCount);
+            }
+        }
+    }
+}

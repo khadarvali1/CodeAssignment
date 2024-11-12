@@ -1,0 +1,17 @@
+public class OrganizationAnalyzer {
+    public static void main(String[] args) {
+        try {
+            // Step 1: Read employees from CSV
+            List<Employee> employees = CSVReader.readEmployees("employees.csv");
+            OrganizationStructure organization = new OrganizationStructure(employees);
+
+            // Step 2: Analyze salary violations
+            organization.checkSalaryViolations();
+
+            // Step 3: Analyze reporting line length
+            organization.checkReportingLines();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}

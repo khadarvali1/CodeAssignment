@@ -1,0 +1,38 @@
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.*;
+
+public class OrganizationStructureTest {
+
+    @Test
+    public void testSalaryViolations() {
+        // Setup some test data
+        List<Employee> employees = Arrays.asList(
+            new Employee(1, "CEO", null, 100000, "CEO"),
+            new Employee(2, "Manager 1", 1, 70000, "Manager"),
+            new Employee(3, "Manager 2", 1, 80000, "Manager"),
+            new Employee(4, "Employee 1", 2, 50000, "Employee")
+        );
+        OrganizationStructure org = new OrganizationStructure(employees);
+        
+        // Test salary violation logic
+        org.checkSalaryViolations(); // This would print the violations if there are any
+    }
+
+    @Test
+    public void testReportingLines() {
+        // Setup some test data
+        List<Employee> employees = Arrays.asList(
+            new Employee(1, "CEO", null, 100000, "CEO"),
+            new Employee(2, "Manager 1", 1, 70000, "Manager"),
+            new Employee(3, "Manager 2", 1, 80000, "Manager"),
+            new Employee(4, "Employee 1", 2, 50000, "Employee"),
+            new Employee(5, "Employee 2", 3, 55000, "Employee")
+        );
+        OrganizationStructure org = new OrganizationStructure(employees);
+        
+        // Test reporting line length logic
+        org.checkReportingLines(); // This would print if any employees have too long a reporting line
+    }
+}
